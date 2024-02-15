@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Filters from "./Filters";
 import PetBrowser from "./PetBrowser";
 
 function App() {
-  const [pets, setPets] = useState([]);
-  const [filters, setFilters] = useState({ type: "all" });
+  const [statePets, stateSetPets] = useState([])
+  const [stateFilters, setStateFilters] = useState('all')
+  const [middleState, setMiddleState] = useState('all')
+
+  
+
+  
+  useEffect( () => {
+    fetch("http://localhost:3001/pets")
+    .then(resp => resp.json())
+    .then(data => stateSetPets(data))
+  }, [])
+
+  const filteredPets = statePets.filter(pet => pet.type === stateFilters || stateFilters === 'all')
 
   return (
     <div className="ui container">
@@ -15,10 +27,12 @@ function App() {
       <div className="ui container">
         <div className="ui grid">
           <div className="four wide column">
-            <Filters />
+            <Filters  setMiddleState={setMiddleState}
+                      setStateFilters={setStateFilters}
+                      middleState={middleState} />
           </div>
           <div className="twelve wide column">
-            <PetBrowser />
+            <PetBrowser filteredPets={filteredPets} />
           </div>
         </div>
       </div>
