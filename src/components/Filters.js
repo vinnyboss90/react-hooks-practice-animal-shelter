@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Filters( {setStateFilters, middleState, setMiddleState }) {
-
-  function handleFilter () {
-    setStateFilters(middleState)
-  }
-
+function Filters({ onChangeType, onFindPetsClick }) {
   return (
     <div className="ui form">
       <h3>Animal type</h3>
       <div className="field">
-        <select name="type" id="type" aria-label="type" onChange={ (e) => setMiddleState(e.target.value)}>
+        <select name="type" id="type" aria-label="type" onChange={(e) => onChangeType(e.target.value)}>
           <option value="all">All</option>
           <option value="cat">Cats</option>
           <option value="dog">Dogs</option>
@@ -19,12 +14,10 @@ function Filters( {setStateFilters, middleState, setMiddleState }) {
       </div>
 
       <div className="field">
-        <button className="ui secondary button"
-                onClick={ () => handleFilter()}>Find pets</button>
+        <button className="ui secondary button" onClick={onFindPetsClick}>Find pets</button>
       </div>
     </div>
   );
 }
 
 export default Filters;
-
